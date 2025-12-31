@@ -24,7 +24,7 @@ def save_object(file_path, obj):
     
 
 
-def evaluvate_models(X_train,y_train,X_test,y_test,models):
+def evaluvate_models(X_train,y_train,X_test,y_test,models,param):
 
     try:
 
@@ -32,6 +32,13 @@ def evaluvate_models(X_train,y_train,X_test,y_test,models):
 
         for i in range(len(list(models))):
             model = list(models.values())[i]
+            para=param[list(models.keys())[i]]
+
+            gs = GridSearchCV(model,para,cv=3)
+            gs.fit(X_train,y_train)
+
+            model.set_params(**gs.best_params_)  # model.set_params(max_depth=10, n_estimators=200) python treat it as like this
+
 
 
             # Train the model
